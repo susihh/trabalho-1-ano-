@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Avançada de Frotas e Abastecimento</title>
+    <title>FrotaLink - Controle de Abastecimento</title>
     <style>
         :root {
             --primary: #0f172a;
             --accent: #2563eb;
             --success: #16a34a;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
             --text: #334155;
             --border: #cbd5e1;
@@ -23,12 +23,80 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+            flex: 1;
         }
+
+        /* Telas (Screens) */
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        /* Tela Inicial / Seleção de Perfil */
+        #screen-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+        .home-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            max-width: 500px;
+            width: 100%;
+        }
+        .home-card h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .home-card p {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        .role-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn-role {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, background 0.2s;
+        }
+        .btn-role.gestor {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-role.gestor:hover { background-color: #1e293b; }
+        .btn-role.motorista {
+            background-color: var(--accent);
+            color: white;
+        }
+        .btn-role.motorista:hover { background-color: #1d4ed8; }
+        .btn-role:active { transform: scale(0.98); }
+
+        /* Header Interno */
         header {
             display: flex;
             justify-content: space-between;
@@ -36,15 +104,26 @@
             margin-bottom: 24px;
             background: var(--primary);
             color: white;
-            padding: 20px;
+            padding: 16px 24px;
             border-radius: 8px;
         }
-        header h1 { font-size: 1.5rem; }
-        
-        /* Dashboard Metrics */
+        header h1 { font-size: 1.3rem; }
+        .btn-back {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.25); }
+
+        /* Dashboard e Cartões */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -58,34 +137,6 @@
         .metric-card h3 { font-size: 0.85rem; color: #64748b; text-transform: uppercase; }
         .metric-card p { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin-top: 5px; }
 
-        /* Navigation Tabs */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--text);
-            transition: all 0.2s;
-        }
-        .tab-btn.active {
-            background: var(--accent);
-            color: white;
-        }
-
-        /* Content Sections */
-        .section-content {
-            display: none;
-        }
-        .section-content.active {
-            display: block;
-        }
         .card {
             background: var(--card-bg);
             padding: 24px;
@@ -93,7 +144,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 24px;
         }
-        h2 { font-size: 1.25rem; color: var(--primary); margin-bottom: 16px; }
+        h2 { font-size: 1.2rem; color: var(--primary); margin-bottom: 16px; }
 
         form {
             display: grid;
@@ -131,7 +182,7 @@
         }
         .btn-submit:hover { background-color: #15803d; }
 
-        /* Tables */
+        /* Tabelas */
         .table-container {
             overflow-x: auto;
             margin-top: 15px;
@@ -153,100 +204,46 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Gestão Inteligente de Frotas</h1>
-            <span id="dataAtual"></span>
-        </header>
 
-        <!-- KPI Metrics -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <h3>Total Gasto em Abastecimentos</h3>
-                <p id="kpiGasto">R$ 0,00</p>
-            </div>
-            <div class="metric-card" style="border-left-color: var(--success);">
-                <h3>Volume Total Abastecido</h3>
-                <p id="kpiLitros">0.00 L</p>
-            </div>
-            <div class="metric-card" style="border-left-color: #f59e0b;">
-                <h3>Veículos Cadastrados</h3>
-                <p id="kpiVeiculos">0</p>
+    <!-- TELA 1: SELEÇÃO DE PERFIL / HOME -->
+    <div id="screen-home" class="screen active">
+        <div class="home-card">
+            <h1>LogiFrota</h1>
+            <p>Sistema Corporativo de Controle de Abastecimento</p>
+            <div class="role-buttons">
+                <button class="btn-role gestor" onclick="mudarTela('gestor')">Área do Gestor</button>
+                <button class="btn-role motorista" onclick="mudarTela('motorista')">Área do Motorista</button>
             </div>
         </div>
+    </div>
 
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('abastecimento')">Abastecimentos</button>
-            <button class="tab-btn" onclick="switchTab('veiculos')">Veículos</button>
-            <button class="tab-btn" onclick="switchTab('motoristas')">Motoristas</button>
-        </div>
+    <!-- TELA 2: PAINEL DO GESTOR (Visão Geral da Frota) -->
+    <div id="screen-gestor" class="screen">
+        <div class="container">
+            <header>
+                <h1>Painel do Gestor - Monitoramento de Frotas</h1>
+                <button class="btn-back" onclick="mudarTela('home')">Sair / Voltar</button>
+            </header>
 
-        <!-- Section: Abastecimento -->
-        <div id="sec-abastecimento" class="section-content active">
-            <div class="card">
-                <h2>Registrar Novo Abastecimento</h2>
-                <form id="abastecimentoForm">
-                    <div class="form-group">
-                        <label for="ab_veiculo">Veículo (Placa)</label>
-                        <select id="ab_veiculo" required><option value="">Selecione...</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_motorista">Motorista</label>
-                        <select id="ab_motorista" required><option value="">Selecione...</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_posto">Posto Parceiro</label>
-                        <input type="text" id="ab_posto" placeholder="Ex: Posto Central" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_data">Data e Hora</label>
-                        <input type="datetime-local" id="ab_data" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_litros">Litros</label>
-                        <input type="number" step="0.01" id="ab_litros" placeholder="0.00" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_valor">Valor Total (R$)</label>
-                        <input type="number" step="0.01" id="ab_valor" placeholder="0.00" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_km">Quilometragem Atual</label>
-                        <input type="number" step="0.01" id="ab_km" placeholder="Ex: 45200" required>
-                    </div>
-                    <div class="form-group" style="justify-content: flex-end;">
-                        <label>&nbsp;</label>
-                        <button type="submit" class="btn-submit">Salvar Abastecimento</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card">
-                <h2>Histórico de Abastecimentos</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Veículo</th>
-                                <th>Motorista</th>
-                                <th>Posto</th>
-                                <th>Litros</th>
-                                <th>Valor Total</th>
-                                <th>KM</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaAbastecimentos"></tbody>
-                    </table>
+            <!-- Métricas KPI -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Gasto Total em Combustível</h3>
+                    <p id="kpiGasto">R$ 0,00</p>
+                </div>
+                <div class="metric-card" style="border-left-color: var(--success);">
+                    <h3>Volume Total Abastecido</h3>
+                    <p id="kpiLitros">0.00 L</p>
+                </div>
+                <div class="metric-card" style="border-left-color: #f59e0b;">
+                    <h3>Veículos Cadastrados</h3>
+                    <p id="kpiVeiculos">0</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Section: Veículos -->
-        <div id="sec-veiculos" class="section-content">
+            <!-- Cadastro de Veículos -->
             <div class="card">
-                <h2>Cadastrar Veículo</h2>
+                <h2>Cadastrar Novo Veículo</h2>
                 <form id="veiculoForm">
                     <div class="form-group">
                         <label for="v_placa">Placa</label>
@@ -262,7 +259,7 @@
                     </div>
                     <div class="form-group">
                         <label for="v_ano">Ano</label>
-                        <input type="number" id="v_ano" placeholder="2023" required>
+                        <input type="number" id="v_ano" placeholder="2024" required>
                     </div>
                     <div class="form-group">
                         <label for="v_combustivel">Combustível</label>
@@ -274,7 +271,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="v_km">KM Inicial</label>
+                        <label for="v_km">KM Atual</label>
                         <input type="number" step="0.01" id="v_km" placeholder="0" required>
                     </div>
                     <div class="form-full">
@@ -283,65 +280,92 @@
                 </form>
             </div>
 
+            <!-- Monitoramento Completo de Abastecimentos -->
             <div class="card">
-                <h2>Veículos Cadastrados</h2>
+                <h2>Histórico Geral de Abastecimentos (Auditoria)</h2>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Placa</th>
-                                <th>Marca / Modelo</th>
-                                <th>Ano</th>
-                                <th>Combustível</th>
-                                <th>KM Atual</th>
+                                <th>Data/Hora</th>
+                                <th>Veículo (Placa)</th>
+                                <th>Motorista</th>
+                                <th>Posto Parceiro</th>
+                                <th>Litros</th>
+                                <th>Valor Total</th>
+                                <th>KM Registrada</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaVeiculos"></tbody>
+                        <tbody id="tabelaAuditoriaGestor"></tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Section: Motoristas -->
-        <div id="sec-motoristas" class="section-content">
+    <!-- TELA 3: PAINEL DO MOTORISTA (Registro de Atividades) -->
+    <div id="screen-motorista" class="screen">
+        <div class="container">
+            <header>
+                <h1>Painel do Motorista - Lançamento de Abastecimento</h1>
+                <button class="btn-back" onclick="mudarTela('home')">Sair / Voltar</button>
+            </header>
+
             <div class="card">
-                <h2>Cadastrar Motorista</h2>
-                <form id="motoristaForm">
+                <h2>Anotar Abastecimento Realizado</h2>
+                <form id="abastecimentoForm">
                     <div class="form-group">
-                        <label for="m_nome">Nome Completo</label>
-                        <input type="text" id="m_nome" required>
+                        <label for="ab_veiculo">Selecione o Veículo</label>
+                        <select id="ab_veiculo" required>
+                            <option value="">Carregando veículos...</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="m_cpf">CPF</label>
-                        <input type="text" id="m_cpf" placeholder="000.000.000-00" required>
+                        <label for="ab_motorista">Seu Nome (Motorista)</label>
+                        <input type="text" id="ab_motorista" placeholder="Nome Completo" required>
                     </div>
                     <div class="form-group">
-                        <label for="m_cnh">CNH</label>
-                        <input type="text" id="m_cnh" required>
+                        <label for="ab_posto">Posto Parceiro</label>
+                        <input type="text" id="ab_posto" placeholder="Ex: Posto Rodovia" required>
                     </div>
                     <div class="form-group">
-                        <label for="m_email">E-mail</label>
-                        <input type="email" id="m_email" required>
+                        <label for="ab_data">Data e Hora</label>
+                        <input type="datetime-local" id="ab_data" required>
                     </div>
-                    <div class="form-full">
-                        <button type="submit" class="btn-submit">Salvar Motorista</button>
+                    <div class="form-group">
+                        <label for="ab_litros">Litros Abastecidos</label>
+                        <input type="number" step="0.01" id="ab_litros" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_valor">Valor Total da Nota (R$)</label>
+                        <input type="number" step="0.01" id="ab_valor" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_km">Quilometragem Atual do Veículo</label>
+                        <input type="number" step="0.01" id="ab_km" placeholder="Ex: 48500" required>
+                    </div>
+                    <div class="form-group" style="justify-content: flex-end;">
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn-submit">Registrar Atividade</button>
                     </div>
                 </form>
             </div>
 
             <div class="card">
-                <h2>Motoristas Cadastrados</h2>
+                <h2>Meus Últimos Registros Enviados</h2>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>CNH</th>
-                                <th>E-mail</th>
+                                <th>Data/Hora</th>
+                                <th>Veículo</th>
+                                <th>Posto</th>
+                                <th>Litros</th>
+                                <th>Valor Total</th>
+                                <th>KM</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelaMotoristas"></tbody>
+                        <tbody id="tabelaMeusRegistros"></tbody>
                     </table>
                 </div>
             </div>
@@ -349,37 +373,27 @@
     </div>
 
     <script>
-        // Data atual no header
-        document.getElementById('dataAtual').innerText = new Date().toLocaleDateString('pt-BR');
-
-        // Alternância de Abas
-        function switchTab(tabId) {
-            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById('sec-' + tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+        // Gerenciamento de Telas
+        function mudarTela(tela) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById('screen-' + tela).classList.add('active');
+            if (tela === 'gestor') {
+                atualizarGestor();
+            } else if (tela === 'motorista') {
+                atualizarMotorista();
+            }
         }
 
         // Armazenamento em LocalStorage
         const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
         const saveData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-        // Inicializar dados e atualizar interface
-        function atualizarSistema() {
-            carregarVeiculos();
-            carregarMotoristas();
-            carregarAbastecimentos();
-            atualizarSelects();
-            atualizarMetricas();
-        }
-
-        // Veículos
+        // Cadastro de Veículo (Gestor)
         document.getElementById('veiculoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const veiculos = getData('veiculos');
             veiculos.push({
-                placa: document.getElementById('v_placa').value,
+                placa: document.getElementById('v_placa').value.toUpperCase(),
                 modelo: document.getElementById('v_modelo').value,
                 marca: document.getElementById('v_marca').value,
                 ano: document.getElementById('v_ano').value,
@@ -388,52 +402,11 @@
             });
             saveData('veiculos', veiculos);
             this.reset();
-            atualizarSistema();
+            atualizarGestor();
+            alert('Veículo cadastrado com sucesso!');
         });
 
-        function carregarVeiculos() {
-            const tbody = document.getElementById('tabelaVeiculos');
-            tbody.innerHTML = '';
-            getData('veiculos').forEach(v => {
-                tbody.innerHTML += `<tr>
-                    <td><strong>${v.placa}</strong></td>
-                    <td>${v.marca} ${v.modelo}</td>
-                    <td>${v.ano}</td>
-                    <td>${v.combustivel}</td>
-                    <td>${Number(v.km).toLocaleString('pt-BR')} km</td>
-                </tr>`;
-            });
-        }
-
-        // Motoristas
-        document.getElementById('motoristaForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const motoristas = getData('motoristas');
-            motoristas.push({
-                nome: document.getElementById('m_nome').value,
-                cpf: document.getElementById('m_cpf').value,
-                cnh: document.getElementById('m_cnh').value,
-                email: document.getElementById('m_email').value
-            });
-            saveData('motoristas', motoristas);
-            this.reset();
-            atualizarSistema();
-        });
-
-        function carregarMotoristas() {
-            const tbody = document.getElementById('tabelaMotoristas');
-            tbody.innerHTML = '';
-            getData('motoristas').forEach(m => {
-                tbody.innerHTML += `<tr>
-                    <td><strong>${m.nome}</strong></td>
-                    <td>${m.cpf}</td>
-                    <td>${m.cnh}</td>
-                    <td>${m.email}</td>
-                </tr>`;
-            });
-        }
-
-        // Abastecimentos
+        // Registro de Abastecimento (Motorista)
         document.getElementById('abastecimentoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const abastecimentos = getData('abastecimentos');
@@ -448,13 +421,27 @@
             });
             saveData('abastecimentos', abastecimentos);
             this.reset();
-            atualizarSistema();
+            atualizarMotorista();
+            alert('Abastecimento anotado com sucesso!');
         });
 
-        function carregarAbastecimentos() {
-            const tbody = document.getElementById('tabelaAbastecimentos');
+        // Atualizar Visão do Gestor
+        function atualizarGestor() {
+            const abastecimentos = getData('abastecimentos');
+            const veiculos = getData('veiculos');
+
+            // Métricas (KPIs)
+            const totalGasto = abastecimentos.reduce((acc, curr) => acc + curr.valor, 0);
+            const totalLitros = abastecimentos.reduce((acc, curr) => acc + curr.litros, 0);
+
+            document.getElementById('kpiGasto').innerText = `R$ ${totalGasto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('kpiLitros').innerText = `${totalLitros.toLocaleString('pt-BR', {minimumFractionDigits: 2})} L`;
+            document.getElementById('kpiVeiculos').innerText = veiculos.length;
+
+            // Tabela de Auditoria
+            const tbody = document.getElementById('tabelaAuditoriaGestor');
             tbody.innerHTML = '';
-            getData('abastecimentos').forEach(a => {
+            abastecimentos.forEach(a => {
                 const dataFormatada = a.data ? new Date(a.data).toLocaleString('pt-BR') : '-';
                 tbody.innerHTML += `<tr>
                     <td>${dataFormatada}</td>
@@ -468,37 +455,30 @@
             });
         }
 
-        // Atualizar Selects Relacionais
-        function atualizarSelects() {
+        // Atualizar Visão do Motorista
+        function atualizarMotorista() {
+            // Preencher select de veículos
             const selectVeiculo = document.getElementById('ab_veiculo');
-            const selectMotorista = document.getElementById('ab_motorista');
-            
-            selectVeiculo.innerHTML = '<option value="">Selecione...</option>';
+            selectVeiculo.innerHTML = '<option value="">Selecione um veículo...</option>';
             getData('veiculos').forEach(v => {
                 selectVeiculo.innerHTML += `<option value="${v.placa}">${v.placa} - ${v.marca} ${v.modelo}</option>`;
             });
 
-            selectMotorista.innerHTML = '<option value="">Selecione...</option>';
-            getData('motoristas').forEach(m => {
-                selectMotorista.innerHTML += `<option value="${m.nome}">${m.nome}</option>`;
+            // Tabela de registros do motorista
+            const tbody = document.getElementById('tabelaMeusRegistros');
+            tbody.innerHTML = '';
+            getData('abastecimentos').forEach(a => {
+                const dataFormatada = a.data ? new Date(a.data).toLocaleString('pt-BR') : '-';
+                tbody.innerHTML += `<tr>
+                    <td>${dataFormatada}</td>
+                    <td><strong>${a.veiculo}</strong></td>
+                    <td>${a.posto}</td>
+                    <td>${a.litros.toFixed(2)} L</td>
+                    <td>R$ ${a.valor.toFixed(2)}</td>
+                    <td>${Number(a.km).toLocaleString('pt-BR')} km</td>
+                </tr>`;
             });
         }
-
-        // Métricas do Dashboard (KPIs)
-        function atualizarMetricas() {
-            const abastecimentos = getData('abastecimentos');
-            const veiculos = getData('veiculos');
-
-            const totalGasto = abastecimentos.reduce((acc, curr) => acc + curr.valor, 0);
-            const totalLitros = abastecimentos.reduce((acc, curr) => acc + curr.litros, 0);
-
-            document.getElementById('kpiGasto').innerText = `R$ ${totalGasto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('kpiLitros').innerText = `${totalLitros.toLocaleString('pt-BR', {minimumFractionDigits: 2})} L`;
-            document.getElementById('kpiVeiculos').innerText = veiculos.length;
-        }
-
-        // Executar carregamento inicial
-        window.onload = atualizarSistema;
     </script>
 </body>
 </html>
