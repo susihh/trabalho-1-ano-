@@ -1,946 +1,880 @@
+deixe esse site responsive 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogiFrota - Gestão e Controle Inteligente de Abastecimento</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0f172a;
-            --primary-light: #1e293b;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiFrota - Gestão e Controle Inteligente de Abastecimento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 24px;
-            flex: 1;
-        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 24px;
+            flex: 1;
+        }
 
-        .screen {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
+        .screen {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
 
-        .screen.active {
-            display: block;
-            opacity: 1;
-        }
+        .screen.active {
+            display: block;
+            opacity: 1;
+        }
 
-        /* TELA HOME */
-        #screen-home.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 90vh;
-            padding: 16px;
-        }
+        /* TELA HOME */
+        #screen-home.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
 
-        .home-card {
-            background: var(--card-bg);
-            padding: 48px 40px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            max-width: 520px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
+        .home-card {
+            background: var(--card-bg);
+            padding: 48px 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
 
-        .brand-logo {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 64px;
-            height: 64px;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--accent);
-            border-radius: 16px;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent);
+            border-radius: 16px;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
 
-        .home-card h1 {
-            color: var(--primary);
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.025em;
-        }
+        .home-card h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
 
-        .home-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 32px;
-            line-height: 1.5;
-        }
+        .home-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
 
-        .role-buttons {
-            display: flex;
-            gap: 16px;
-            flex-direction: column;
-        }
+        .role-buttons {
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+        }
 
-        .btn-role {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        @media (min-width: 480px) {
+            .role-buttons {
+                flex-direction: row;
+            }
+        }
 
-        .btn-role.gestor {
-            background-color: var(--primary);
-            color: white;
-        }
-        .btn-role.gestor:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
+        .btn-role {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-        .btn-role.motorista {
-            background-color: var(--accent);
-            color: white;
-        }
-        .btn-role.motorista:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
+        .btn-role.gestor {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-role.gestor:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
 
-        /* HEADER DOS PAINÉIS */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            background: var(--primary);
-            color: white;
-            padding: 20px 28px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            gap: 16px;
-        }
+        .btn-role.motorista {
+            background-color: var(--accent);
+            color: white;
+        }
+        .btn-role.motorista:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
 
-        header h1 {
-            font-size: 1.35rem;
-            font-weight: 600;
-        }
+        /* HEADER DOS PAINÉIS */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            background: var(--primary);
+            color: white;
+            padding: 20px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
-        .btn-back {
-            background: rgba(255, 255, 255, 0.12);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+        header h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+        }
 
-        /* METRICAS / KPIS */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 28px;
-        }
+        .btn-back {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
 
-        .metric-card {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            border-left: 5px solid var(--accent);
-            transition: transform 0.2s ease;
-        }
-        .metric-card:hover {
-            transform: translateY(-2px);
-        }
+        /* METRICAS / KPIS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
+        }
 
-        .metric-card h3 {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
+        .metric-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.2s ease;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
 
-        .metric-card p {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-top: 8px;
-        }
+        .metric-card h3 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
 
-        /* CARDS E FORMULÁRIOS */
-        .card {
-            background: var(--card-bg);
-            padding: 28px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 28px;
-        }
+        .metric-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 8px;
+        }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
+        /* CARDS E FORMULÁRIOS */
+        .card {
+            background: var(--card-bg);
+            padding: 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 28px;
+        }
 
-        h2 {
-            font-size: 1.25rem;
-            color: var(--primary);
-            font-weight: 600;
-        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
-        form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+        h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
 
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: #475569;
-        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
 
-        input, select {
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background-color: #f8fafc;
-            width: 100%;
-        }
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #475569;
+        }
 
-        input:focus, select:focus {
-            border-color: var(--accent);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
+        input, select {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #f8fafc;
+        }
 
-        .form-full {
-            grid-column: 1 / -1;
-        }
+        input:focus, select:focus {
+            border-color: var(--accent);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
 
-        .btn-submit {
-            background-color: var(--success);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-        }
-        .btn-submit:hover {
-            background-color: #059669;
-            box-shadow: var(--shadow);
-        }
+        .form-full {
+            grid-column: 1 / -1;
+        }
 
-        /* SEÇÃO EXPLICATIVA: NECESSIDADE DA GESTÃO */
-        .info-box {
-            background: #eff6ff;
-            border-left: 4px solid var(--accent);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 28px;
-        }
+        .btn-submit {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-submit:hover {
+            background-color: #059669;
+            box-shadow: var(--shadow);
+        }
 
-        .info-box h3 {
-            color: var(--accent);
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        /* SEÇÃO EXPLICATIVA: NECESSIDADE DA GESTÃO */
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+        }
 
-        .info-box p {
-            font-size: 0.92rem;
-            color: #334155;
-            line-height: 1.6;
-        }
+        .info-box h3 {
+            color: var(--accent);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-        .info-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-        }
+        .info-box p {
+            font-size: 0.92rem;
+            color: #334155;
+            line-height: 1.6;
+        }
 
-        .info-feature-item {
-            background: white;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            border: 1px solid #dbeafe;
-        }
+        .info-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
 
-        .info-feature-item strong {
-            color: var(--primary);
-            display: block;
-            margin-bottom: 4px;
-        }
+        .info-feature-item {
+            background: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            border: 1px solid #dbeafe;
+        }
 
-        /* TABELAS E BUSCA */
-        .table-controls {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+        .info-feature-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 4px;
+        }
 
-        .search-input {
-            max-width: 320px;
-            width: 100%;
-        }
+        /* TABELAS E BUSCA */
+        .table-controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
 
-        .table-container {
-            overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            -webkit-overflow-scrolling: touch;
-        }
+        .search-input {
+            max-width: 320px;
+            width: 100%;
+        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-            background: white;
-            min-width: 600px;
-        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
 
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: white;
+        }
 
-        th {
-            background-color: #f8fafc;
-            font-weight: 600;
-            color: #475569;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
 
-        tbody tr:hover {
-            background-color: #f8fafc;
-        }
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
 
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .badge-flex { background: #e0e7ff; color: #3730a3; }
-        .badge-diesel { background: #fef3c7; color: #92400e; }
-        .badge-gasolina { background: #fee2e2; color: #991b1b; }
-        .badge-etanol { background: #dcfce7; color: #166534; }
+        tbody tr:hover {
+            background-color: #f8fafc;
+        }
 
-        .btn-delete {
-            background: #fee2e2;
-            color: var(--danger);
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: background 0.2s;
-        }
-        .btn-delete:hover {
-            background: #fca5a5;
-        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-flex { background: #e0e7ff; color: #3730a3; }
+        .badge-diesel { background: #fef3c7; color: #92400e; }
+        .badge-gasolina { background: #fee2e2; color: #991b1b; }
+        .badge-etanol { background: #dcfce7; color: #166534; }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-        }
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover {
+            background: #fca5a5;
+        }
 
-        /* AUTO CALCULATED DISPLAY */
-        .calc-preview {
-            background: #f8fafc;
-            border: 1px dashed var(--border);
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 45px;
-        }
-        .calc-preview strong {
-            color: var(--accent);
-            font-size: 1rem;
-        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
 
-        /* REGRAS DE MEDIA QUERIES (RESPONSIVIDADE) */
-        @media (min-width: 480px) {
-            .role-buttons {
-                flex-direction: row;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 12px;
-            }
-
-            .home-card {
-                padding: 28px 20px;
-            }
-
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 16px 20px;
-            }
-
-            .btn-back {
-                width: 100%;
-                text-align: center;
-            }
-
-            .card {
-                padding: 18px;
-            }
-
-            form {
-                grid-template-columns: 1fr;
-            }
-
-            .search-input {
-                max-width: 100%;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+        /* AUTO CALCULATED DISPLAY */
+        .calc-preview {
+            background: #f8fafc;
+            border: 1px dashed var(--border);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .calc-preview strong {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+    </style>
 </head>
 <body>
 
-    <div id="screen-home" class="screen active">
-        <div class="home-card">
-            <div class="brand-logo">⛽</div>
-            <h1>LogiFrota</h1>
-            <p>Plataforma Integrada de Gestão de Combustível, Eficiência Operacional e Auditoria de Frotas.</p>
-            <div class="role-buttons">
-                <button class="btn-role gestor" onclick="acessarGestor()">
-                    <span>👤</span> Painel do Gestor
-                </button>
-                <button class="btn-role motorista" onclick="acessarMotorista()">
-                    <span>🚛</span> Painel do Motorista
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- TELA 1: HOME -->
+    <div id="screen-home" class="screen active">
+        <div class="home-card">
+            <div class="brand-logo">⛽</div>
+            <h1>LogiFrota</h1>
+            <p>Plataforma Integrada de Gestão de Combustível, Eficiência Operacional e Auditoria de Frotas.</p>
+            <div class="role-buttons">
+                <button class="btn-role gestor" onclick="acessarGestor()">
+                    <span>👤</span> Painel do Gestor
+                </button>
+                <button class="btn-role motorista" onclick="acessarMotorista()">
+                    <span>🚛</span> Painel do Motorista
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <div id="screen-gestor" class="screen">
-        <div class="container">
-            <header>
-                <div>
-                    <h1>Painel do Gestor</h1>
-                    <small style="color: #94a3b8;">Visão estratégica e auditoria em tempo real</small>
-                </div>
-                <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
-            </header>
+    <!-- TELA 2: PAINEL DO GESTOR -->
+    <div id="screen-gestor" class="screen">
+        <div class="container">
+            <header>
+                <div>
+                    <h1>Painel do Gestor</h1>
+                    <small style="color: #94a3b8;">Visão estratégica e auditoria em tempo real</small>
+                </div>
+                <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
+            </header>
 
-            <div class="info-box">
-                <h3>💡 Por que o Controle de Abastecimento é Essencial?</h3>
-                <p>O combustível representa até 40% dos custos operacionais de uma frota. Sem o devido controle, as empresas sofrem com desvios, ineficiência energética e faltas de manutenção preventiva.</p>
-                <div class="info-features">
-                    <div class="info-feature-item">
-                        <strong>Redução de Custos</strong>
-                        Identifique postos mais caros e veículos com consumo excessivo.
-                    </div>
-                    <div class="info-feature-item">
-                        <strong>Prevenção de Fraudes</strong>
-                        Cruze os dados de KM registrada com a capacidade real do tanque.
-                    </div>
-                    <div class="info-feature-item">
-                        <strong>Eficiência Energética (KM/L)</strong>
-                        Avalie quais motoristas e veículos apresentam melhor rendimento nas rodovias.
-                    </div>
-                </div>
-            </div>
+            <!-- EXPLICAÇÃO SOBRE A NECESSIDADE E BENEFÍCIOS DO SISTEMA -->
+            <div class="info-box">
+                <h3>💡 Por que o Controle de Abastecimento é Essencial?</h3>
+                <p>O combustível representa até 40% dos custos operacionais de uma frota. Sem o devido controle, as empresas sofrem com desvios, ineficiência energética e faltas de manutenção preventiva.</p>
+                <div class="info-features">
+                    <div class="info-feature-item">
+                        <strong>Redução de Custos</strong>
+                        Identifique postos mais caros e veículos com consumo excessivo.
+                    </div>
+                    <div class="info-feature-item">
+                        <strong>Prevenção de Fraudes</strong>
+                        Cruze os dados de KM registrada com a capacidade real do tanque.
+                    </div>
+                    <div class="info-feature-item">
+                        <strong>Eficiência Energética (KM/L)</strong>
+                        Avalie quais motoristas e veículos apresentam melhor rendimento nas rodovias.
+                    </div>
+                </div>
+            </div>
 
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <h3>Gasto Total Acumulado</h3>
-                    <p id="kpiGasto">R$ 0,00</p>
-                </div>
-                <div class="metric-card" style="border-left-color: var(--success);">
-                    <h3>Volume Abastecido</h3>
-                    <p id="kpiLitros">0,00 L</p>
-                </div>
-                <div class="metric-card" style="border-left-color: var(--warning);">
-                    <h3>Preço Médio / Litro</h3>
-                    <p id="kpiPrecoMedio">R$ 0,00</p>
-                </div>
-                <div class="metric-card" style="border-left-color: #8b5cf6;">
-                    <h3>Veículos Cadastrados</h3>
-                    <p id="kpiVeiculos">0</p>
-                </div>
-            </div>
+            <!-- CARDS DE METRICAS (KPIS) -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Gasto Total Acumulado</h3>
+                    <p id="kpiGasto">R$ 0,00</p>
+                </div>
+                <div class="metric-card" style="border-left-color: var(--success);">
+                    <h3>Volume Abastecido</h3>
+                    <p id="kpiLitros">0,00 L</p>
+                </div>
+                <div class="metric-card" style="border-left-color: var(--warning);">
+                    <h3>Preço Médio / Litro</h3>
+                    <p id="kpiPrecoMedio">R$ 0,00</p>
+                </div>
+                <div class="metric-card" style="border-left-color: #8b5cf6;">
+                    <h3>Veículos Cadastrados</h3>
+                    <p id="kpiVeiculos">0</p>
+                </div>
+            </div>
 
-            <div class="card">
-                <h2>Cadastrar Novo Veículo na Frota</h2>
-                <form id="veiculoForm" style="margin-top: 16px;">
-                    <div class="form-group">
-                        <label for="v_placa">Placa do Veículo</label>
-                        <input type="text" id="v_placa" placeholder="ABC-1234 ou ABC1D23" maxlength="8" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="v_modelo">Modelo</label>
-                        <input type="text" id="v_modelo" placeholder="Ex: Strada, FH 540" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="v_marca">Marca / Fabricante</label>
-                        <input type="text" id="v_marca" placeholder="Ex: Fiat, Volvo" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="v_ano">Ano de Fabricação</label>
-                        <input type="number" id="v_ano" placeholder="2024" min="1990" max="2027" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="v_combustivel">Combustível Principal</label>
-                        <select id="v_combustivel" required>
-                            <option value="Flex">Flex (Gasolina/Etanol)</option>
-                            <option value="Diesel">Diesel S10 / S500</option>
-                            <option value="Gasolina">Gasolina Comum/Aditivada</option>
-                            <option value="Etanol">Etanol</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="v_km">Quilometragem Inicial (KM)</label>
-                        <input type="number" step="0.1" id="v_km" placeholder="0.0" required>
-                    </div>
-                    <div class="form-full">
-                        <button type="submit" class="btn-submit">➕ Salvar Veículo na Frota</button>
-                    </div>
-                </form>
-            </div>
+            <!-- FORMULÁRIO DE CADASTRO DE VEÍCULOS -->
+            <div class="card">
+                <h2>Cadastrar Novo Veículo na Frota</h2>
+                <form id="veiculoForm" style="margin-top: 16px;">
+                    <div class="form-group">
+                        <label for="v_placa">Placa do Veículo</label>
+                        <input type="text" id="v_placa" placeholder="ABC-1234 ou ABC1D23" maxlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="v_modelo">Modelo</label>
+                        <input type="text" id="v_modelo" placeholder="Ex: Strada, FH 540" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="v_marca">Marca / Fabricante</label>
+                        <input type="text" id="v_marca" placeholder="Ex: Fiat, Volvo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="v_ano">Ano de Fabricação</label>
+                        <input type="number" id="v_ano" placeholder="2024" min="1990" max="2027" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="v_combustivel">Combustível Principal</label>
+                        <select id="v_combustivel" required>
+                            <option value="Flex">Flex (Gasolina/Etanol)</option>
+                            <option value="Diesel">Diesel S10 / S500</option>
+                            <option value="Gasolina">Gasolina Comum/Aditivada</option>
+                            <option value="Etanol">Etanol</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="v_km">Quilometragem Inicial (KM)</label>
+                        <input type="number" step="0.1" id="v_km" placeholder="0.0" required>
+                    </div>
+                    <div class="form-full">
+                        <button type="submit" class="btn-submit">➕ Salvar Veículo na Frota</button>
+                    </div>
+                </form>
+            </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2>Histórico Geral de Abastecimentos (Auditoria)</h2>
-                    <input type="text" id="searchAuditoria" class="search-input" placeholder="🔍 Buscar por placa, motorista ou posto..." oninput="filtrarTabelaAuditoria()">
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data / Hora</th>
-                                <th>Veículo (Placa)</th>
-                                <th>Motorista</th>
-                                <th>Posto Parceiro</th>
-                                <th>Litros</th>
-                                <th>Preço / L</th>
-                                <th>Valor Total</th>
-                                <th>KM Registrada</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaAuditoriaGestor"></tbody>
-                    </table>
-                </div>
-            </div>
+            <!-- HISTÓRICO GERAL E AUDITORIA -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Histórico Geral de Abastecimentos (Auditoria)</h2>
+                    <input type="text" id="searchAuditoria" class="search-input" placeholder="🔍 Buscar por placa, motorista ou posto..." oninput="filtrarTabelaAuditoria()">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Veículo (Placa)</th>
+                                <th>Motorista</th>
+                                <th>Posto Parceiro</th>
+                                <th>Litros</th>
+                                <th>Preço / L</th>
+                                <th>Valor Total</th>
+                                <th>KM Registrada</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAuditoriaGestor"></tbody>
+                    </table>
+                </div>
+            </div>
 
-            <div class="card">
-                <h2>Frota Cadastrada</h2>
-                <div class="table-container" style="margin-top: 16px;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Placa</th>
-                                <th>Marca / Modelo</th>
-                                <th>Ano</th>
-                                <th>Combustível</th>
-                                <th>KM Cadastrado</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaVeiculosCadastrados"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+            <!-- LISTA DE VEÍCULOS CADASTRADOS -->
+            <div class="card">
+                <h2>Frota Cadastrada</h2>
+                <div class="table-container" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Marca / Modelo</th>
+                                <th>Ano</th>
+                                <th>Combustível</th>
+                                <th>KM Cadastrado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaVeiculosCadastrados"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div id="screen-motorista" class="screen">
-        <div class="container">
-            <header>
-                <div>
-                    <h1>Painel do Motorista</h1>
-                    <small style="color: #94a3b8;">Registro simplificado de despesas de viagem</small>
-                </div>
-                <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
-            </header>
+    <!-- TELA 3: PAINEL DO MOTORISTA -->
+    <div id="screen-motorista" class="screen">
+        <div class="container">
+            <header>
+                <div>
+                    <h1>Painel do Motorista</h1>
+                    <small style="color: #94a3b8;">Registro simplificado de despesas de viagem</small>
+                </div>
+                <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
+            </header>
 
-            <div class="card">
-                <h2>Anotar Novo Abastecimento</h2>
-                <form id="abastecimentoForm" style="margin-top: 16px;">
-                    <div class="form-group">
-                        <label for="ab_veiculo">Selecione o Veículo</label>
-                        <select id="ab_veiculo" required>
-                            <option value="">Carregando veículos...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_motorista">Nome Completo do Motorista</label>
-                        <input type="text" id="ab_motorista" placeholder="Ex: Carlos Silva" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_posto">Posto de Combustível</label>
-                        <input type="text" id="ab_posto" placeholder="Ex: Posto Shell BR-101" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_data">Data e Hora do Abastecimento</label>
-                        <input type="datetime-local" id="ab_data" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_litros">Litros Abastecidos</label>
-                        <input type="number" step="0.01" id="ab_litros" placeholder="0.00" oninput="calcularPrecoLitro()" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_valor">Valor Total da Nota Fiscal (R$)</label>
-                        <input type="number" step="0.01" id="ab_valor" placeholder="0.00" oninput="calcularPrecoLitro()" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="ab_km">Quilometragem (KM Atual do Painel)</label>
-                        <input type="number" step="0.1" id="ab_km" placeholder="Ex: 48500" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Cálculo em Tempo Real</label>
-                        <div class="calc-preview">
-                            <span>Preço calculado por Litro:</span>
-                            <strong id="previewPrecoLitro">R$ 0.00 / L</strong>
-                        </div>
-                    </div>
-                    <div class="form-full">
-                        <button type="submit" class="btn-submit">📌 Enviar Registro de Abastecimento</button>
-                    </div>
-                </form>
-            </div>
+            <!-- FORMULÁRIO DE ABASTECIMENTO -->
+            <div class="card">
+                <h2>Anotar Novo Abastecimento</h2>
+                <form id="abastecimentoForm" style="margin-top: 16px;">
+                    <div class="form-group">
+                        <label for="ab_veiculo">Selecione o Veículo</label>
+                        <select id="ab_veiculo" required>
+                            <option value="">Carregando veículos...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_motorista">Nome Completo do Motorista</label>
+                        <input type="text" id="ab_motorista" placeholder="Ex: Carlos Silva" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_posto">Posto de Combustível</label>
+                        <input type="text" id="ab_posto" placeholder="Ex: Posto Shell BR-101" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_data">Data e Hora do Abastecimento</label>
+                        <input type="datetime-local" id="ab_data" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_litros">Litros Abastecidos</label>
+                        <input type="number" step="0.01" id="ab_litros" placeholder="0.00" oninput="calcularPrecoLitro()" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_valor">Valor Total da Nota Fiscal (R$)</label>
+                        <input type="number" step="0.01" id="ab_valor" placeholder="0.00" oninput="calcularPrecoLitro()" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ab_km">Quilometragem (KM Atual do Painel)</label>
+                        <input type="number" step="0.1" id="ab_km" placeholder="Ex: 48500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cálculo em Tempo Real</label>
+                        <div class="calc-preview">
+                            <span>Preço calculado por Litro:</span>
+                            <strong id="previewPrecoLitro">R$ 0.00 / L</strong>
+                        </div>
+                    </div>
+                    <div class="form-full">
+                        <button type="submit" class="btn-submit">📌 Enviar Registro de Abastecimento</button>
+                    </div>
+                </form>
+            </div>
 
-            <div class="card">
-                <h2>Meus Abastecimentos Registrados</h2>
-                <div class="table-container" style="margin-top: 16px;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data / Hora</th>
-                                <th>Veículo</th>
-                                <th>Posto</th>
-                                <th>Litros</th>
-                                <th>Preço/L</th>
-                                <th>Valor Total</th>
-                                <th>KM</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaMeusRegistros"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+            <!-- REGISTROS RECENTES -->
+            <div class="card">
+                <h2>Meus Abastecimentos Registrados</h2>
+                <div class="table-container" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Veículo</th>
+                                <th>Posto</th>
+                                <th>Litros</th>
+                                <th>Preço/L</th>
+                                <th>Valor Total</th>
+                                <th>KM</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaMeusRegistros"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // CREDENCIAIS DE ACESSO
-        const SENHA_GESTOR = "admin123";
-        const CODIGO_MOTORISTA = "mot123";
+    <!-- SCRIPT DA APLICAÇÃO (JAVASCRIPT) -->
+    <script>
+        // CREDENCIAIS DE ACESSO
+        const SENHA_GESTOR = "admin123";
+        const CODIGO_MOTORISTA = "mot123";
 
-        // AUXILIARES DE LOCALSTORAGE
-        const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
-        const saveData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+        // AUXILIARES DE LOCALSTORAGE
+        const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
+        const saveData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-        // INICIALIZAÇÃO E AUTO-PREENCHIMENTO DE DATA HORA
-        document.addEventListener('DOMContentLoaded', () => {
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('ab_data').value = now.toISOString().slice(0, 16);
-            
-            // Dados de demonstração iniciais se o armazenamento estiver vazio
-            if (getData('veiculos').length === 0) {
-                const veiculosDemo = [
-                    { placa: "ABC-1234", modelo: "Strada 1.4", marca: "Fiat", ano: "2022", combustivel: "Flex", km: "45000" },
-                    { placa: "XYZ-9876", modelo: "FH 540", marca: "Volvo", ano: "2023", combustivel: "Diesel", km: "128000" }
-                ];
-                saveData('veiculos', veiculosDemo);
-            }
-        });
+        // INICIALIZAÇÃO E AUTO-PREENCHIMENTO DE DATA HORA
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('ab_data').value = now.toISOString().slice(0, 16);
+            
+            // Dados de demonstração iniciais se o armazenamento estiver vazio
+            if (getData('veiculos').length === 0) {
+                const veiculosDemo = [
+                    { placa: "ABC-1234", modelo: "Strada 1.4", marca: "Fiat", ano: "2022", combustivel: "Flex", km: "45000" },
+                    { placa: "XYZ-9876", modelo: "FH 540", marca: "Volvo", ano: "2023", combustivel: "Diesel", km: "128000" }
+                ];
+                saveData('veiculos', veiculosDemo);
+            }
+        });
 
-        // AUTENTICAÇÃO E NAVEGAÇÃO
-        function acessarGestor() {
-            const senhaDigitada = prompt("Digite a senha do Gestor (Padrão: admin123):");
-            if (senhaDigitada === null) return;
+        // AUTENTICAÇÃO E NAVEGAÇÃO
+        function acessarGestor() {
+            const senhaDigitada = prompt("Digite a senha do Gestor (Padrão: admin123):");
+            if (senhaDigitada === null) return;
 
-            if (senhaDigitada === SENHA_GESTOR) {
-                mudarTela('gestor');
-            } else {
-                alert("Senha incorreta! Acesso negado.");
-            }
-        }
+            if (senhaDigitada === SENHA_GESTOR) {
+                mudarTela('gestor');
+            } else {
+                alert("Senha incorreta! Acesso negado.");
+            }
+        }
 
-        function acessarMotorista() {
-            const codigoDigitado = prompt("Digite o código do Motorista (Padrão: mot123):");
-            if (codigoDigitado === null) return;
+        function acessarMotorista() {
+            const codigoDigitado = prompt("Digite o código do Motorista (Padrão: mot123):");
+            if (codigoDigitado === null) return;
 
-            if (codigoDigitado === CODIGO_MOTORISTA) {
-                mudarTela('motorista');
-            } else {
-                alert("Código incorreto! Acesso negado.");
-            }
-        }
+            if (codigoDigitado === CODIGO_MOTORISTA) {
+                mudarTela('motorista');
+            } else {
+                alert("Código incorreto! Acesso negado.");
+            }
+        }
 
-        function mudarTela(tela) {
-            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-            const targetScreen = document.getElementById('screen-' + tela);
-            targetScreen.classList.add('active');
+        function mudarTela(tela) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            const targetScreen = document.getElementById('screen-' + tela);
+            targetScreen.classList.add('active');
 
-            if (tela === 'gestor') {
-                atualizarGestor();
-            } else if (tela === 'motorista') {
-                atualizarMotorista();
-            }
-        }
+            if (tela === 'gestor') {
+                atualizarGestor();
+            } else if (tela === 'motorista') {
+                atualizarMotorista();
+            }
+        }
 
-        // CÁLCULO DINÂMICO DE PREÇO POR LITRO NO FORMULÁRIO DO MOTORISTA
-        function calcularPrecoLitro() {
-            const litros = parseFloat(document.getElementById('ab_litros').value) || 0;
-            const valor = parseFloat(document.getElementById('ab_valor').value) || 0;
-            const preview = document.getElementById('previewPrecoLitro');
+        // CÁLCULO DINÂMICO DE PREÇO POR LITRO NO FORMULÁRIO DO MOTORISTA
+        function calcularPrecoLitro() {
+            const litros = parseFloat(document.getElementById('ab_litros').value) || 0;
+            const valor = parseFloat(document.getElementById('ab_valor').value) || 0;
+            const preview = document.getElementById('previewPrecoLitro');
 
-            if (litros > 0 && valor > 0) {
-                const precoPorLitro = valor / litros;
-                preview.innerText = `R$ ${precoPorLitro.toFixed(2)} / L`;
-            } else {
-                preview.innerText = `R$ 0.00 / L`;
-            }
-        }
+            if (litros > 0 && valor > 0) {
+                const precoPorLitro = valor / litros;
+                preview.innerText = `R$ ${precoPorLitro.toFixed(2)} / L`;
+            } else {
+                preview.innerText = `R$ 0.00 / L`;
+            }
+        }
 
-        // FORMULÁRIO DE CADASTRO DE VEÍCULO
-        document.getElementById('veiculoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const veiculos = getData('veiculos');
-            const novaPlaca = document.getElementById('v_placa').value.toUpperCase().trim();
+        // FORMULÁRIO DE CADASTRO DE VEÍCULO
+        document.getElementById('veiculoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const veiculos = getData('veiculos');
+            const novaPlaca = document.getElementById('v_placa').value.toUpperCase().trim();
 
-            if (veiculos.some(v => v.placa === novaPlaca)) {
-                alert('Atenção: Já existe um veículo cadastrado com esta placa!');
-                return;
-            }
+            if (veiculos.some(v => v.placa === novaPlaca)) {
+                alert('Atenção: Já existe um veículo cadastrado com esta placa!');
+                return;
+            }
 
-            veiculos.push({
-                placa: novaPlaca,
-                modelo: document.getElementById('v_modelo').value.trim(),
-                marca: document.getElementById('v_marca').value.trim(),
-                ano: document.getElementById('v_ano').value,
-                combustivel: document.getElementById('v_combustivel').value,
-                km: document.getElementById('v_km').value
-            });
+            veiculos.push({
+                placa: novaPlaca,
+                modelo: document.getElementById('v_modelo').value.trim(),
+                marca: document.getElementById('v_marca').value.trim(),
+                ano: document.getElementById('v_ano').value,
+                combustivel: document.getElementById('v_combustivel').value,
+                km: document.getElementById('v_km').value
+            });
 
-            saveData('veiculos', veiculos);
-            this.reset();
-            atualizarGestor();
-            alert('Veículo cadastrado com sucesso!');
-        });
+            saveData('veiculos', veiculos);
+            this.reset();
+            atualizarGestor();
+            alert('Veículo cadastrado com sucesso!');
+        });
 
-        // FORMULÁRIO DE ABASTECIMENTO
-        document.getElementById('abastecimentoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const abastecimentos = getData('abastecimentos');
-            const litros = parseFloat(document.getElementById('ab_litros').value);
-            const valor = parseFloat(document.getElementById('ab_valor').value);
+        // FORMULÁRIO DE ABASTECIMENTO
+        document.getElementById('abastecimentoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const abastecimentos = getData('abastecimentos');
+            const litros = parseFloat(document.getElementById('ab_litros').value);
+            const valor = parseFloat(document.getElementById('ab_valor').value);
 
-            abastecimentos.unshift({
-                id: Date.now(),
-                veiculo: document.getElementById('ab_veiculo').value,
-                motorista: document.getElementById('ab_motorista').value.trim(),
-                posto: document.getElementById('ab_posto').value.trim(),
-                data: document.getElementById('ab_data').value,
-                litros: litros,
-                valor: valor,
-                precoLitro: valor / litros,
-                km: document.getElementById('ab_km').value
-            });
+            abastecimentos.unshift({
+                id: Date.now(),
+                veiculo: document.getElementById('ab_veiculo').value,
+                motorista: document.getElementById('ab_motorista').value.trim(),
+                posto: document.getElementById('ab_posto').value.trim(),
+                data: document.getElementById('ab_data').value,
+                litros: litros,
+                valor: valor,
+                precoLitro: valor / litros,
+                km: document.getElementById('ab_km').value
+            });
 
-            saveData('abastecimentos', abastecimentos);
-            this.reset();
-            document.getElementById('previewPrecoLitro').innerText = `R$ 0.00 / L`;
-            
-            // Reconfigurar data atual
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('ab_data').value = now.toISOString().slice(0, 16);
+            saveData('abastecimentos', abastecimentos);
+            this.reset();
+            document.getElementById('previewPrecoLitro').innerText = `R$ 0.00 / L`;
+            
+            // Reconfigurar data atual
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('ab_data').value = now.toISOString().slice(0, 16);
 
-            atualizarMotorista();
-            alert('Abastecimento registrado com sucesso!');
-        });
+            atualizarMotorista();
+            alert('Abastecimento registrado com sucesso!');
+        });
 
-        // ATUALIZAÇÃO DO PAINEL DO GESTOR
-        function atualizarGestor() {
-            const abastecimentos = getData('abastecimentos');
-            const veiculos = getData('veiculos');
+        // ATUALIZAÇÃO DO PAINEL DO GESTOR
+        function atualizarGestor() {
+            const abastecimentos = getData('abastecimentos');
+            const veiculos = getData('veiculos');
 
-            // KPIS
-            const totalGasto = abastecimentos.reduce((acc, curr) => acc + curr.valor, 0);
-            const totalLitros = abastecimentos.reduce((acc, curr) => acc + curr.litros, 0);
-            const precoMedioGeral = totalLitros > 0 ? (totalGasto / totalLitros) : 0;
+            // KPIS
+            const totalGasto = abastecimentos.reduce((acc, curr) => acc + curr.valor, 0);
+            const totalLitros = abastecimentos.reduce((acc, curr) => acc + curr.litros, 0);
+            const precoMedioGeral = totalLitros > 0 ? (totalGasto / totalLitros) : 0;
 
-            document.getElementById('kpiGasto').innerText = `R$ ${totalGasto.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            document.getElementById('kpiLitros').innerText = `${totalLitros.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} L`;
-            document.getElementById('kpiPrecoMedio').innerText = `R$ ${precoMedioGeral.toFixed(2)}`;
-            document.getElementById('kpiVeiculos').innerText = veiculos.length;
+            document.getElementById('kpiGasto').innerText = `R$ ${totalGasto.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('kpiLitros').innerText = `${totalLitros.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} L`;
+            document.getElementById('kpiPrecoMedio').innerText = `R$ ${precoMedioGeral.toFixed(2)}`;
+            document.getElementById('kpiVeiculos').innerText = veiculos.length;
 
-            renderTabelaAuditoria(abastecimentos);
-            renderTabelaVeiculos(veiculos);
-        }
+            renderTabelaAuditoria(abastecimentos);
+            renderTabelaVeiculos(veiculos);
+        }
 
-        // RENDERIZAÇÃO DA TABELA DE AUDITORIA
-        function renderTabelaAuditoria(dados) {
-            const tbody = document.getElementById('tabelaAuditoriaGestor');
-            tbody.innerHTML = '';
+        // RENDERIZAÇÃO DA TABELA DE AUDITORIA
+        function renderTabelaAuditoria(dados) {
+            const tbody = document.getElementById('tabelaAuditoriaGestor');
+            tbody.innerHTML = '';
 
-            if (dados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nenhum registro de abastecimento encontrado.</td></tr>`;
-                return;
-            }
+            if (dados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="empty-state">Nenhum registro de abastecimento encontrado.</td></tr>`;
+                return;
+            }
 
-            dados.forEach(a => {
-                const dataFormatada = a.data ? new Date(a.data).toLocaleString('pt-BR') : '-';
-                const precoL = a.precoLitro ? a.precoLitro : (a.valor / a.litros);
+            dados.forEach(a => {
+                const dataFormatada = a.data ? new Date(a.data).toLocaleString('pt-BR') : '-';
+                const precoL = a.precoLitro ? a.precoLitro : (a.valor / a.litros);
 
-                tbody.innerHTML += `<tr>
-                    <td>${dataFormatada}</td>
-                    <td><strong>${a.veiculo}</strong></td>
-                    <td>${a.motorista}</td>
-                    <td>${a.posto}</td>
-                    <td>${a.litros.toFixed(2)} L</td>
-                    <td>R$ ${precoL.toFixed(2)}</td>
-                    <td><strong>R$ ${a.valor.toFixed(2)}</strong></td>
-                    <td>${Number(a.km).toLocaleString('pt-BR')} km</td>
-                    <td><button class="btn-delete" onclick="removerAbastecimento(${a.id})">Excluir</button></td>
-                </tr>`;
-            });
-        }
+                tbody.innerHTML += `<tr>
+                    <td>${dataFormatada}</td>
+                    <td><strong>${a.veiculo}</strong></td>
+                    <td>${a.motorista}</td>
+                    <td>${a.posto}</td>
+                    <td>${a.litros.toFixed(2)} L</td>
+                    <td>R$ ${precoL.toFixed(2)}</td>
+                    <td><strong>R$ ${a.valor.toFixed(2)}</strong></td>
+                    <td>${Number(a.km).toLocaleString('pt-BR')} km</td>
+                    <td><button class="btn-delete" onclick="removerAbastecimento(${a.id})">Excluir</button></td>
+                </tr>`;
+            });
+        }
 
-        // FILTRO DE BUSCA NA TABELA DE AUDITORIA
-        function filtrarTabelaAuditoria() {
-            const termo = document.getElementById('searchAuditoria').value.toLowerCase();
-            const abastecimentos = getData('abastecimentos');
-            const filtrados = abastecimentos.filter(a => 
-                a.veiculo.toLowerCase().includes(termo) ||
-                a.motorista.toLowerCase().includes(termo) ||
-                a.posto.toLowerCase().includes(termo)
-            );
-            renderTabelaAuditoria(filtrados);
-        }
+        // RENDERIZAÇÃO DA TABELA DE VEÍCULOS
+        function renderTabelaVeiculos(veiculos) {
+            const tbody = document.getElementById('tabelaVeiculosCadastrados');
+            tbody.innerHTML = '';
 
-        // RENDERIZAÇÃO DA TABELA DE VEÍCULOS
-        function renderTabelaVeiculos(veiculos) {
-            const tbody = document.getElementById('tabelaVeiculosCadastrados');
-            tbody.innerHTML = '';
+            if (veiculos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Nenhum veículo cadastrado.</td></tr>`;
+                return;
+            }
 
-            if (veiculos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Nenhum veículo cadastrado.</td></tr>`;
-                return;
-            }
-
-            veiculos.forEach((v, index) => {
-                let badgeClass = 'badge-flex';
-                if (v.combustivel === 'Diesel') badgeClass = 'badge-diesel';
-                else if (v.combustivel === 'Gasolina') badgeClass = 'badge-gasolina';
-                else if (v.combustivel === 'Etanol') badgeClass = 'badge-etanol';
-
-                tbody.innerHTML += `<tr>
-                    <td><strong>${v.placa}</strong></td>
-                    <td>${v.marca} ${v.modelo}</td>
-                    <td>${v.ano}</td>
-                    <td><span class="badge ${badgeClass}">${v.combustivel}</span></td>
-                    <td>${Number(v.km).toLocaleString('pt-BR')} km</td>
-                    <td><button class="btn-delete" onclick="removerVeiculo(${index})">Excluir</button></td>
-                </tr>`;
-            });
-        }
-
-        // REMOÇÕES
-        function removerAbastecimento(id) {
-            if (confirm('Deseja realmente excluir este registro de abastecimento?')) {
-                let abastecimentos = getData('abastecimentos');
-                abastecimentos = abastecimentos.filter(a => a.id !== id);
-                saveData('abastecimentos
+            veiculos.forEach((v, index) => {
+                let badgeClass = 'badge-flex';
+                if (v.combustivel === 'Diesel') b
