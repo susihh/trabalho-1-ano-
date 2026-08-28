@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Abastecimento</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: var(--primary);
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 20px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button {
+            grid-column: span 2;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Controle de Abastecimento</h1>
+
+        <div class="card">
+            <h2>Cadastro de Veículo</h2>
+            <form id="veiculoForm">
+                <div class="form-group">
+                    <label for="placa">Placa</label>
+                    <input type="text" id="placa" required>
+                </div>
+                <div class="form-group">
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo" required>
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input type="text" id="marca" required>
+                </div>
+                <div class="form-group">
+                    <label for="ano">Ano</label>
+                    <input type="number" id="ano" required>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_combustivel">Tipo de Combustível</label>
+                    <input type="text" id="tipo_combustivel" required>
+                </div>
+                <div class="form-group">
+                    <label for="quilometragem_atual">Quilometragem Atual</label>
+                    <input type="number" step="0.01" id="quilometragem_atual" required>
+                </div>
+                <button type="submit">Salvar Veículo</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Veículos Cadastrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Modelo</th>
+                        <th>Marca</th>
+                        <th>Ano</th>
+                        <th>Combustível</th>
+                        <th>KM Atual</th>
+                    </tr>
+                </thead>
+                <tbody id="veiculosTableBody">
+                    <!-- Dados carregados via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', carregarVeiculos);
+
+        const form = document.getElementById('veiculoForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const novoVeiculo = {
+                placa: document.getElementById('placa').value,
+                modelo: document.getElementById('modelo').value,
+                marca: document.getElementById('marca').value,
+                ano: document.getElementById('ano').value,
+                tipo_combustivel: document.getElementById('tipo_combustivel').value,
+                quilometragem_atual: document.getElementById('quilometragem_atual').value
+            };
+
+            let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
+            veiculos.push(novoVeiculo);
+            localStorage.setItem('veiculos', JSON.stringify(veiculos));
+
+            form.reset();
+            carregarVeiculos();
+        });
+
+        function carregarVeiculos() {
+            const tbody = document.getElementById('veiculosTableBody');
+            tbody.innerHTML = '';
+            
+            let veiculos = JSON.parse(localStorage.getItem('veiculos')) || [];
+            
+            veiculos.forEach(v => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${v.placa}</td>
+                    <td>${v.modelo}</td>
+                    <td>${v.marca}</td>
+                    <td>${v.ano}</td>
+                    <td>${v.tipo_combustivel}</td>
+                    <td>${v.quilometragem_atual}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
