@@ -35,16 +35,13 @@
             flex: 1;
         }
 
-        /* Oculta todas as telas por padrão */
         .screen {
             display: none;
         }
-        /* Exibe apenas a tela que possui a classe active */
         .screen.active {
             display: block;
         }
 
-        /* Tela Inicial / Seleção de Perfil */
         #screen-home.active {
             display: flex;
             flex-direction: column;
@@ -97,7 +94,6 @@
         .btn-role.motorista:hover { background-color: #1d4ed8; }
         .btn-role:active { transform: scale(0.98); }
 
-        /* Header Interno */
         header {
             display: flex;
             justify-content: space-between;
@@ -121,7 +117,6 @@
         }
         .btn-back:hover { background: rgba(255,255,255,0.25); }
 
-        /* Dashboard e Cartões */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -183,7 +178,6 @@
         }
         .btn-submit:hover { background-color: #15803d; }
 
-        /* Tabelas */
         .table-container {
             overflow-x: auto;
             margin-top: 15px;
@@ -206,14 +200,14 @@
 </head>
 <body>
 
-    <!-- TELA 1: HOME (Soberana ao iniciar, some ao clicar nos botões) -->
+    <!-- TELA 1: HOME -->
     <div id="screen-home" class="screen active">
         <div class="home-card">
             <h1>LogiFrota</h1>
             <p>Controle Inteligente de Abastecimento de Frotas</p>
             <div class="role-buttons">
-                <button class="btn-role gestor" onclick="mudarTela('gestor')">Gestor</button>
-                <button class="btn-role motorista" onclick="mudarTela('motorista')">Motorista</button>
+                <button class="btn-role gestor" onclick="acessarGestor()">Gestor</button>
+                <button class="btn-role motorista" onclick="acessarMotorista()">Motorista</button>
             </div>
         </div>
     </div>
@@ -371,7 +365,33 @@
     </div>
 
     <script>
-        // Função para sumir com a tela atual e exibir apenas a escolhida
+        // Senha padrão do Gestor: "admin123"
+        // Código padrão do Motorista: "mot123"
+        const SENHA_GESTOR = "admin123";
+        const CODIGO_MOTORISTA = "mot123";
+
+        function acessarGestor() {
+            const senhaDigitada = prompt("Digite a senha do Gestor:");
+            if (senhaDigitada === null) return; // Cancelou
+
+            if (senhaDigitada === SENHA_GESTOR) {
+                mudarTela('gestor');
+            } else {
+                alert("Senha incorreta! Acesso negado.");
+            }
+        }
+
+        function acessarMotorista() {
+            const codigoDigitado = prompt("Digite o código do Motorista:");
+            if (codigoDigitado === null) return; // Cancelou
+
+            if (codigoDigitado === CODIGO_MOTORISTA) {
+                mudarTela('motorista');
+            } else {
+                alert("Código incorreto! Acesso negado.");
+            }
+        }
+
         function mudarTela(tela) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             document.getElementById('screen-' + tela).classList.add('active');
