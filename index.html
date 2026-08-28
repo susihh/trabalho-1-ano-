@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrotaLink - Controle de Abastecimento</title>
+    <title>LogiFrota - Controle de Abastecimento</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -35,21 +35,22 @@
             flex: 1;
         }
 
-        /* Telas (Screens) */
+        /* Oculta todas as telas por padrão */
         .screen {
             display: none;
         }
+        /* Exibe apenas a tela que possui a classe active */
         .screen.active {
             display: block;
         }
 
         /* Tela Inicial / Seleção de Perfil */
-        #screen-home {
+        #screen-home.active {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80vh;
+            min-height: 90vh;
             text-align: center;
         }
         .home-card {
@@ -62,7 +63,7 @@
         }
         .home-card h1 {
             color: var(--primary);
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 10px;
         }
         .home-card p {
@@ -205,27 +206,26 @@
 </head>
 <body>
 
-    <!-- TELA 1: SELEÇÃO DE PERFIL / HOME -->
+    <!-- TELA 1: HOME (Soberana ao iniciar, some ao clicar nos botões) -->
     <div id="screen-home" class="screen active">
         <div class="home-card">
             <h1>LogiFrota</h1>
-            <p>Sistema Corporativo de Controle de Abastecimento</p>
+            <p>Controle Inteligente de Abastecimento de Frotas</p>
             <div class="role-buttons">
-                <button class="btn-role gestor" onclick="mudarTela('gestor')">Área do Gestor</button>
-                <button class="btn-role motorista" onclick="mudarTela('motorista')">Área do Motorista</button>
+                <button class="btn-role gestor" onclick="mudarTela('gestor')">Gestor</button>
+                <button class="btn-role motorista" onclick="mudarTela('motorista')">Motorista</button>
             </div>
         </div>
     </div>
 
-    <!-- TELA 2: PAINEL DO GESTOR (Visão Geral da Frota) -->
+    <!-- TELA 2: PAINEL DO GESTOR -->
     <div id="screen-gestor" class="screen">
         <div class="container">
             <header>
-                <h1>Painel do Gestor - Monitoramento de Frotas</h1>
-                <button class="btn-back" onclick="mudarTela('home')">Sair / Voltar</button>
+                <h1>Painel do Gestor - Visão Geral da Frota</h1>
+                <button class="btn-back" onclick="mudarTela('home')">Voltar ao Início</button>
             </header>
 
-            <!-- Métricas KPI -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <h3>Gasto Total em Combustível</h3>
@@ -241,7 +241,6 @@
                 </div>
             </div>
 
-            <!-- Cadastro de Veículos -->
             <div class="card">
                 <h2>Cadastrar Novo Veículo</h2>
                 <form id="veiculoForm">
@@ -280,7 +279,6 @@
                 </form>
             </div>
 
-            <!-- Monitoramento Completo de Abastecimentos -->
             <div class="card">
                 <h2>Histórico Geral de Abastecimentos (Auditoria)</h2>
                 <div class="table-container">
@@ -303,12 +301,12 @@
         </div>
     </div>
 
-    <!-- TELA 3: PAINEL DO MOTORISTA (Registro de Atividades) -->
+    <!-- TELA 3: PAINEL DO MOTORISTA -->
     <div id="screen-motorista" class="screen">
         <div class="container">
             <header>
-                <h1>Painel do Motorista - Lançamento de Abastecimento</h1>
-                <button class="btn-back" onclick="mudarTela('home')">Sair / Voltar</button>
+                <h1>Painel do Motorista - Registro de Atividades</h1>
+                <button class="btn-back" onclick="mudarTela('home')">Voltar ao Início</button>
             </header>
 
             <div class="card">
@@ -373,10 +371,11 @@
     </div>
 
     <script>
-        // Gerenciamento de Telas
+        // Função para sumir com a tela atual e exibir apenas a escolhida
         function mudarTela(tela) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             document.getElementById('screen-' + tela).classList.add('active');
+            
             if (tela === 'gestor') {
                 atualizarGestor();
             } else if (tela === 'motorista') {
@@ -384,11 +383,9 @@
             }
         }
 
-        // Armazenamento em LocalStorage
         const getData = (key) => JSON.parse(localStorage.getItem(key)) || [];
         const saveData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-        // Cadastro de Veículo (Gestor)
         document.getElementById('veiculoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const veiculos = getData('veiculos');
@@ -406,7 +403,6 @@
             alert('Veículo cadastrado com sucesso!');
         });
 
-        // Registro de Abastecimento (Motorista)
         document.getElementById('abastecimentoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const abastecimentos = getData('abastecimentos');
@@ -425,12 +421,10 @@
             alert('Abastecimento anotado com sucesso!');
         });
 
-        // Atualizar Visão do Gestor
         function atualizarGestor() {
             const abastecimentos = getData('abastecimentos');
             const veiculos = getData('veiculos');
 
-            // Métricas (KPIs)
             const totalGasto = abastecimentos.reduce((acc, curr) => acc + curr.valor, 0);
             const totalLitros = abastecimentos.reduce((acc, curr) => acc + curr.litros, 0);
 
@@ -438,7 +432,6 @@
             document.getElementById('kpiLitros').innerText = `${totalLitros.toLocaleString('pt-BR', {minimumFractionDigits: 2})} L`;
             document.getElementById('kpiVeiculos').innerText = veiculos.length;
 
-            // Tabela de Auditoria
             const tbody = document.getElementById('tabelaAuditoriaGestor');
             tbody.innerHTML = '';
             abastecimentos.forEach(a => {
@@ -455,16 +448,13 @@
             });
         }
 
-        // Atualizar Visão do Motorista
         function atualizarMotorista() {
-            // Preencher select de veículos
             const selectVeiculo = document.getElementById('ab_veiculo');
             selectVeiculo.innerHTML = '<option value="">Selecione um veículo...</option>';
             getData('veiculos').forEach(v => {
                 selectVeiculo.innerHTML += `<option value="${v.placa}">${v.placa} - ${v.marca} ${v.modelo}</option>`;
             });
 
-            // Tabela de registros do motorista
             const tbody = document.getElementById('tabelaMeusRegistros');
             tbody.innerHTML = '';
             getData('abastecimentos').forEach(a => {
