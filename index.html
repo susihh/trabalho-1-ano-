@@ -67,6 +67,7 @@
             align-items: center;
             justify-content: center;
             min-height: 90vh;
+            padding: 16px;
         }
 
         .home-card {
@@ -112,12 +113,6 @@
             display: flex;
             gap: 16px;
             flex-direction: column;
-        }
-
-        @media (min-width: 480px) {
-            .role-buttons {
-                flex-direction: row;
-            }
         }
 
         .btn-role {
@@ -166,6 +161,7 @@
             padding: 20px 28px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            gap: 16px;
         }
 
         header h1 {
@@ -183,6 +179,7 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .btn-back:hover {
             background: rgba(255, 255, 255, 0.25);
@@ -275,6 +272,7 @@
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
             background-color: #f8fafc;
+            width: 100%;
         }
 
         input:focus, select:focus {
@@ -330,7 +328,7 @@
 
         .info-features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             margin-top: 16px;
         }
@@ -355,6 +353,7 @@
             gap: 16px;
             margin-bottom: 16px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .search-input {
@@ -366,6 +365,7 @@
             overflow-x: auto;
             border-radius: 8px;
             border: 1px solid var(--border);
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -373,6 +373,7 @@
             border-collapse: collapse;
             font-size: 0.9rem;
             background: white;
+            min-width: 600px;
         }
 
         th, td {
@@ -439,16 +440,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 45px;
         }
         .calc-preview strong {
             color: var(--accent);
             font-size: 1rem;
         }
+
+        /* REGRAS DE MEDIA QUERIES (RESPONSIVIDADE) */
+        @media (min-width: 480px) {
+            .role-buttons {
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 12px;
+            }
+
+            .home-card {
+                padding: 28px 20px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px 20px;
+            }
+
+            .btn-back {
+                width: 100%;
+                text-align: center;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-input {
+                max-width: 100%;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- TELA 1: HOME -->
     <div id="screen-home" class="screen active">
         <div class="home-card">
             <div class="brand-logo">⛽</div>
@@ -465,7 +510,6 @@
         </div>
     </div>
 
-    <!-- TELA 2: PAINEL DO GESTOR -->
     <div id="screen-gestor" class="screen">
         <div class="container">
             <header>
@@ -476,7 +520,6 @@
                 <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
             </header>
 
-            <!-- EXPLICAÇÃO SOBRE A NECESSIDADE E BENEFÍCIOS DO SISTEMA -->
             <div class="info-box">
                 <h3>💡 Por que o Controle de Abastecimento é Essencial?</h3>
                 <p>O combustível representa até 40% dos custos operacionais de uma frota. Sem o devido controle, as empresas sofrem com desvios, ineficiência energética e faltas de manutenção preventiva.</p>
@@ -496,7 +539,6 @@
                 </div>
             </div>
 
-            <!-- CARDS DE METRICAS (KPIS) -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <h3>Gasto Total Acumulado</h3>
@@ -516,7 +558,6 @@
                 </div>
             </div>
 
-            <!-- FORMULÁRIO DE CADASTRO DE VEÍCULOS -->
             <div class="card">
                 <h2>Cadastrar Novo Veículo na Frota</h2>
                 <form id="veiculoForm" style="margin-top: 16px;">
@@ -555,7 +596,6 @@
                 </form>
             </div>
 
-            <!-- HISTÓRICO GERAL E AUDITORIA -->
             <div class="card">
                 <div class="card-header">
                     <h2>Histórico Geral de Abastecimentos (Auditoria)</h2>
@@ -581,7 +621,6 @@
                 </div>
             </div>
 
-            <!-- LISTA DE VEÍCULOS CADASTRADOS -->
             <div class="card">
                 <h2>Frota Cadastrada</h2>
                 <div class="table-container" style="margin-top: 16px;">
@@ -603,7 +642,6 @@
         </div>
     </div>
 
-    <!-- TELA 3: PAINEL DO MOTORISTA -->
     <div id="screen-motorista" class="screen">
         <div class="container">
             <header>
@@ -614,7 +652,6 @@
                 <button class="btn-back" onclick="mudarTela('home')">← Voltar ao Início</button>
             </header>
 
-            <!-- FORMULÁRIO DE ABASTECIMENTO -->
             <div class="card">
                 <h2>Anotar Novo Abastecimento</h2>
                 <form id="abastecimentoForm" style="margin-top: 16px;">
@@ -661,7 +698,6 @@
                 </form>
             </div>
 
-            <!-- REGISTROS RECENTES -->
             <div class="card">
                 <h2>Meus Abastecimentos Registrados</h2>
                 <div class="table-container" style="margin-top: 16px;">
@@ -684,7 +720,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT DA APLICAÇÃO (JAVASCRIPT) -->
     <script>
         // CREDENCIAIS DE ACESSO
         const SENHA_GESTOR = "admin123";
@@ -864,6 +899,18 @@
             });
         }
 
+        // FILTRO DE BUSCA NA TABELA DE AUDITORIA
+        function filtrarTabelaAuditoria() {
+            const termo = document.getElementById('searchAuditoria').value.toLowerCase();
+            const abastecimentos = getData('abastecimentos');
+            const filtrados = abastecimentos.filter(a => 
+                a.veiculo.toLowerCase().includes(termo) ||
+                a.motorista.toLowerCase().includes(termo) ||
+                a.posto.toLowerCase().includes(termo)
+            );
+            renderTabelaAuditoria(filtrados);
+        }
+
         // RENDERIZAÇÃO DA TABELA DE VEÍCULOS
         function renderTabelaVeiculos(veiculos) {
             const tbody = document.getElementById('tabelaVeiculosCadastrados');
@@ -877,8 +924,8 @@
             veiculos.forEach((v, index) => {
                 let badgeClass = 'badge-flex';
                 if (v.combustivel === 'Diesel') badgeClass = 'badge-diesel';
-                if (v.combustivel === 'Gasolina') badgeClass = 'badge-gasolina';
-                if (v.combustivel === 'Etanol') badgeClass = 'badge-etanol';
+                else if (v.combustivel === 'Gasolina') badgeClass = 'badge-gasolina';
+                else if (v.combustivel === 'Etanol') badgeClass = 'badge-etanol';
 
                 tbody.innerHTML += `<tr>
                     <td><strong>${v.placa}</strong></td>
@@ -886,76 +933,14 @@
                     <td>${v.ano}</td>
                     <td><span class="badge ${badgeClass}">${v.combustivel}</span></td>
                     <td>${Number(v.km).toLocaleString('pt-BR')} km</td>
-                    <td><button class="btn-delete" onclick="removerVeiculo(${index})">Remover</button></td>
+                    <td><button class="btn-delete" onclick="removerVeiculo(${index})">Excluir</button></td>
                 </tr>`;
             });
         }
 
-        // FILTRO DE BUSCA NA TABELA DE AUDITORIA
-        function filtrarTabelaAuditoria() {
-            const termo = document.getElementById('searchAuditoria').value.toLowerCase();
-            const abastecimentos = getData('abastecimentos');
-            const filtrados = abastecimentos.filter(a => 
-                a.veiculo.toLowerCase().includes(termo) ||
-                a.motorista.toLowerCase().includes(termo) ||
-                a.posto.toLowerCase().includes(termo)
-            );
-            renderTabelaAuditoria(filtrados);
-        }
-
-        // EXCLUSÃO DE REGISTROS
+        // REMOÇÕES
         function removerAbastecimento(id) {
-            if (confirm("Deseja realmente excluir este registro de abastecimento?")) {
+            if (confirm('Deseja realmente excluir este registro de abastecimento?')) {
                 let abastecimentos = getData('abastecimentos');
                 abastecimentos = abastecimentos.filter(a => a.id !== id);
-                saveData('abastecimentos', abastecimentos);
-                atualizarGestor();
-            }
-        }
-
-        function removerVeiculo(index) {
-            if (confirm("Deseja remover este veículo da frota?")) {
-                const veiculos = getData('veiculos');
-                veiculos.splice(index, 1);
-                saveData('veiculos', veiculos);
-                atualizarGestor();
-            }
-        }
-
-        // ATUALIZAÇÃO DO PAINEL DO MOTORISTA
-        function atualizarMotorista() {
-            const selectVeiculo = document.getElementById('ab_veiculo');
-            const veiculos = getData('veiculos');
-            
-            selectVeiculo.innerHTML = '<option value="">Selecione um veículo...</option>';
-            veiculos.forEach(v => {
-                selectVeiculo.innerHTML += `<option value="${v.placa}">${v.placa} — ${v.marca} ${v.modelo}</option>`;
-            });
-
-            const tbody = document.getElementById('tabelaMeusRegistros');
-            tbody.innerHTML = '';
-            const abastecimentos = getData('abastecimentos');
-
-            if (abastecimentos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="empty-state">Você ainda não possui registros cadastrados.</td></tr>`;
-                return;
-            }
-
-            abastecimentos.forEach(a => {
-                const dataFormatada = a.data ? new Date(a.data).toLocaleString('pt-BR') : '-';
-                const precoL = a.precoLitro ? a.precoLitro : (a.valor / a.litros);
-
-                tbody.innerHTML += `<tr>
-                    <td>${dataFormatada}</td>
-                    <td><strong>${a.veiculo}</strong></td>
-                    <td>${a.posto}</td>
-                    <td>${a.litros.toFixed(2)} L</td>
-                    <td>R$ ${precoL.toFixed(2)}</td>
-                    <td>R$ ${a.valor.toFixed(2)}</td>
-                    <td>${Number(a.km).toLocaleString('pt-BR')} km</td>
-                </tr>`;
-            });
-        }
-    </script>
-</body>
-</html>
+                saveData('abastecimentos
